@@ -42,7 +42,7 @@ app.get("/api/notes", function(request, response) {
     return response.json(notes);
 });
 
-// Displays a single character, or returns false
+// Displays active note, or returns false
 app.get("/api/notes/:notes", function(request, response) {
     var chosen = request.params.note;
 
@@ -57,19 +57,19 @@ app.get("/api/notes/:notes", function(request, response) {
     return response.json(false);
 });
 
-// Create New Characters - takes in JSON input
-app.post("/api/characters", function(request, response) {
+// Create New Notes - takes in JSON input
+app.post("/api/notes", function(request, response) {
     // request.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
-    var newNote = request.body;
+    var note = request.body;
 
-    console.log(newNote);
+    console.log(note);
 
     // We then add the json the user sent to the character array
-    characters.push(newNote);
+    notes.push(note);
 
     // We then display the JSON to the users
-    response.json(newNote);
+    response.json(note);
 });
 
 // Starts the server to begin listening
