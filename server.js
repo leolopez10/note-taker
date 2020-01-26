@@ -3,6 +3,7 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
+var notes = require("./db/db.json");
 
 // =============================================================
 // Sets up the Express App
@@ -17,11 +18,8 @@ app.use(express.json());
 // Grabbing html files
 app.use(express.static('public'));
 
-// Notes (DATA)
-// =============================================================
-var notes = [{}];
-
-// Routes
+//=============================================================
+// Routes for HTML
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
@@ -33,6 +31,11 @@ app.get("/", function(request, response) {
 app.get("/notes", function(request, response) {
     response.sendFile(path.join(__dirname, "./public/notes.html"))
 })
+
+//=============================================================
+// Routes for API
+// =============================================================
+
 
 // Displays all notes
 app.get("/api/notes", function(request, response) {
