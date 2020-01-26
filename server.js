@@ -2,7 +2,6 @@
 // Dependencies
 // =============================================================
 var express = require("express");
-var mysql = require("mysql");
 var path = require("path");
 
 // =============================================================
@@ -26,36 +25,40 @@ var notes = [{}];
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
-app.get("/", function(req, res) {
-    // res.send("Welcome to the Star Wars Page!")
-    res.sendFile(path.join(__dirname, "./public/index.html"));
+app.get("/", function(request, response) {
+    response.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
-// Displays all characters
-app.get("/api/notes", function(req, res) {
-    return res.json(notes);
+//Display notes pages afte clicking get started button
+app.get("/notes", function(request, response) {
+    response.sendFile(path.join(__dirname, "./public/notes.html"))
+})
+
+// Displays all notes
+app.get("/api/notes", function(request, response) {
+    return response.json(notes);
 });
 
 // Displays a single character, or returns false
-app.get("/api/notes/:notes", function(req, res) {
-    var chosen = req.params.note;
+app.get("/api/notes/:notes", function(request, response) {
+    var chosen = request.params.note;
 
     console.log(chosen);
 
     for (var i = 0; i < notes.length; i++) {
         if (chosen === notes[i].routeName) {
-            return res.json(notes[i]);
+            return response.json(notes[i]);
         }
     }
 
-    return res.json(false);
+    return response.json(false);
 });
 
 // Create New Characters - takes in JSON input
-app.post("/api/characters", function(req, res) {
-    // req.body hosts is equal to the JSON post sent from the user
+app.post("/api/characters", function(request, response) {
+    // request.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
-    var newNote = req.body;
+    var newNote = request.body;
 
     console.log(newNote);
 
@@ -63,11 +66,11 @@ app.post("/api/characters", function(req, res) {
     characters.push(newNote);
 
     // We then display the JSON to the users
-    res.json(newNote);
+    response.json(newNote);
 });
 
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
+    console.log("App listening @ http://localhost:" + PORT);
 });
