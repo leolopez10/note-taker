@@ -42,12 +42,21 @@ app.get("/api/notes", function(request, response) {
     return response.json(notes);
 });
 
+//Display individual note
+// var chosenNote = app.get("/api/notes/:id", function(request, response) {
+//     for (i = 0; i < notes.length; i++) {
+//         return response.json(notes[i].id);
+//     }
+// });
+
+
 
 // Create New Notes - takes in JSON input
 app.post("/api/notes", function(request, response) {
     // request.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
     var note = request.body;
+
     //Create a unique id for each note
     note.id = note.title.replace(/\s+/g, "").toLowerCase();
 
@@ -62,13 +71,14 @@ app.post("/api/notes", function(request, response) {
 app.delete("/api/notes/:id", function(request, response) {
     var chosen = request.params.note;
 
+
+    // console.log(chosen);
+
     for (var i = 0; i < notes.length; i++) {
         if (chosen === notes[i].id) {
-            return response.json(notes[i]);
+            notes.splice(notes.indexOf(i), 1);
         }
     }
-
-    return response.json(false);
 });
 
 // Starts the server to begin listening
