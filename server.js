@@ -42,14 +42,6 @@ app.get("/api/notes", function(request, response) {
     return response.json(notes);
 });
 
-//Display individual note
-// var chosenNote = app.get("/api/notes/:id", function(request, response) {
-//     for (i = 0; i < notes.length; i++) {
-//         return response.json(notes[i].id);
-//     }
-// });
-
-
 
 // Create New Notes - takes in JSON input
 app.post("/api/notes", function(request, response) {
@@ -60,7 +52,7 @@ app.post("/api/notes", function(request, response) {
     //Create a unique id for each note
     note.id = note.title.replace(/\s+/g, "").toLowerCase();
 
-    // We then add the json the user sent to the notes array
+    // We then add the json the user sent to the notes database
     notes.push(note);
 
     console.log(notes);
