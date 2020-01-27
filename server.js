@@ -55,7 +55,7 @@ app.get("/api/notes", function(request, response) {
 app.post("/api/notes", function(request, response) {
     // request.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
-    var note = request.body;
+    let note = request.body;
 
     //Create a unique id for each note
     note.id = note.title.replace(/\s+/g, "").toLowerCase();
@@ -63,20 +63,24 @@ app.post("/api/notes", function(request, response) {
     // We then add the json the user sent to the notes array
     notes.push(note);
 
+    console.log(notes);
+
     // We then display the JSON to the users
     response.json(note);
 });
 
 // Deletes selected note
-app.delete("/api/notes/:id", function(request, response) {
+app.delete("/api/notes/:note", function(request, response) {
+
+    //There is a problem here
     var chosen = request.params.note;
 
 
     // console.log(chosen);
 
-    for (var i = 0; i < notes.length; i++) {
+    for (let i = 0; i < notes.length; i++) {
         if (chosen === notes[i].id) {
-            response.json(notes.splice(chosen, 1));
+            response.json(notes.splice(i, 1));
         }
     }
 });
