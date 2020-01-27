@@ -72,11 +72,8 @@ app.post("/api/notes", function(request, response) {
 // Deletes selected note
 app.delete("/api/notes/:note", function(request, response) {
 
-    //There is a problem here
     var chosen = request.params.note;
 
-
-    // console.log(chosen);
 
     for (let i = 0; i < notes.length; i++) {
         if (chosen === notes[i].id) {
