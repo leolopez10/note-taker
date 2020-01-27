@@ -42,34 +42,34 @@ app.get("/api/notes", function(request, response) {
     return response.json(notes);
 });
 
-// Displays active note, or returns false
-app.get("/api/notes/:notes", function(request, response) {
-    var chosen = request.params.note;
-
-    console.log(chosen);
-
-    for (var i = 0; i < notes.length; i++) {
-        if (chosen === notes[i].routeName) {
-            return response.json(notes[i]);
-        }
-    }
-
-    return response.json(false);
-});
 
 // Create New Notes - takes in JSON input
 app.post("/api/notes", function(request, response) {
     // request.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
     var note = request.body;
-
-    console.log(note);
+    note.id = note.title.replace(/\s+/g, "").toLowerCase();
 
     // We then add the json the user sent to the character array
     notes.push(note);
 
     // We then display the JSON to the users
     response.json(note);
+});
+
+// Deletes selected note
+app.delete("/api/notes/:id", function(request, response) {
+    var chosen = request.params.note;
+
+    console.log(chosen);
+
+    for (var i = 0; i < notes.length; i++) {
+        if (chosen === notes[i].id) {
+            return response.json(notes[i]);
+        }
+    }
+
+    return response.json(false);
 });
 
 // Starts the server to begin listening
