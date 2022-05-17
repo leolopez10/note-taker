@@ -1,9 +1,9 @@
 // =============================================================
 // Dependencies
 // =============================================================
-var express = require("express");
-var path = require("path");
-var notes = require("./db/db.json");
+var express = require('express');
+var path = require('path');
+var notes = require('./db/db.json');
 
 // =============================================================
 // Sets up the Express App
@@ -23,59 +23,55 @@ app.use(express.static('public'));
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
-app.get("/", function(request, response) {
-    response.sendFile(path.join(__dirname, "./public/index.html"));
+app.get('/', function (request, response) {
+  response.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 //Display notes pages afte clicking get started button
-app.get("/notes", function(request, response) {
-    response.sendFile(path.join(__dirname, "./public/notes.html"))
-})
+app.get('/notes', function (request, response) {
+  response.sendFile(path.join(__dirname, './public/notes.html'));
+});
 
 //=============================================================
 // Routes for API
 // =============================================================
 
-
 // Displays all notes
-app.get("/api/notes", function(request, response) {
-    return response.json(notes);
+app.get('/api/notes', function (request, response) {
+  return response.json(notes);
 });
 
-
 // Create New Notes - takes in JSON input
-app.post("/api/notes", function(request, response) {
-    // request.body hosts is equal to the JSON post sent from the user
-    // This works because of our body parsing middleware
-    let note = request.body;
+app.post('/api/notes', function (request, response) {
+  // request.body hosts is equal to the JSON post sent from the user
+  // This works because of our body parsing middleware
+  let note = request.body;
 
-    //Create a unique id for each note
-    note.id = note.title.replace(/\s+/g, "").toLowerCase();
+  //Create a unique id for each note
+  note.id = note.title.replace(/\s+/g, '').toLowerCase();
 
-    // We then add the json the user sent to the notes database
-    notes.push(note);
+  // We then add the json the user sent to the notes database
+  notes.push(note);
 
-    console.log(notes);
+  console.log(notes);
 
-    // We then display the JSON to the users
-    response.json(note);
+  // We then display the JSON to the users
+  response.json(note);
 });
 
 // Deletes selected note
-app.delete("/api/notes/:note", function(request, response) {
+app.delete('/api/notes/:note', function (request, response) {
+  var chosen = request.params.note;
 
-    var chosen = request.params.note;
-
-
-    for (let i = 0; i < notes.length; i++) {
-        if (chosen === notes[i].id) {
-            response.json(notes.splice(i, 1));
-        }
+  for (let i = 0; i < notes.length; i++) {
+    if (chosen === notes[i].id) {
+      response.json(notes.splice(i, 1));
     }
+  }
 });
 
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function() {
-    console.log("App listening @ http://localhost:" + PORT);
+app.listen(PORT, function () {
+  console.log('App listening @ http://localhost:' + PORT);
 });
